@@ -37,7 +37,7 @@ public class PlayerDataFileParser {
                 processTransaction(player, splitLine);
             }
         }catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return players;
     }
@@ -52,7 +52,14 @@ public class PlayerDataFileParser {
 
         int coinsAmount = 0;
         if (data.length > 3 && !data[3].isEmpty()) {
-            coinsAmount = Integer.parseInt(data[3]);
+            try {
+                coinsAmount = Integer.parseInt(data[3]);
+                if (coinsAmount < 0){
+                    coinsAmount = 0;
+                }
+            } catch (NumberFormatException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         String betSide = null;

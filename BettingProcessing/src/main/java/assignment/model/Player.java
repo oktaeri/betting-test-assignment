@@ -15,4 +15,5 @@ public class Player {
     private UUID id;
     private int balance = 0;
     private List<Transaction> transactions = new ArrayList<>();
+    private boolean isLegal;
 }

@@ -92,6 +92,17 @@ public class BettingTest {
     }
 
     @Test
+    public void invalidCoinsAmountDoesNotGetAddedToPlayerTransactions(){
+        String filepath = "src/test/resources/test_player_data_bet_with_invalid_amount_and_side.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        Player player = players.get(0);
+        Transaction transaction = player.getTransactions().get(0);
+
+        Assertions.assertEquals(transaction.getCoinsAmount(), 0);
+    }
+
+    @Test
     public void correctBetSideGetsAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
