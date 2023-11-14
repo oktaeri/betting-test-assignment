@@ -1,4 +1,4 @@
-package model;
+package assignment.model;
 
 import lombok.*;
 
