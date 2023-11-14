@@ -29,12 +29,7 @@ public class FileParser {
         return players;
     }
 
-    private boolean playerInList(String playerId, List<Player> players){
-        for (Player player: players) {
-            if (Objects.equals(player.getId().toString(), playerId)){
-                return true;
-            }
-        }
-        return false;
+    private boolean playerInList(String playerId, List<Player> players) {
+        return players.stream().anyMatch(player -> Objects.equals(player.getId().toString(), playerId));
     }
 }
