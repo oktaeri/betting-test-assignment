@@ -12,9 +12,8 @@ public class Transaction {
     @NonNull
     private UUID playerId;
     @NonNull
-    private String transactionType;
+    private TransactionType transactionType;
     private UUID matchId;
-    @NonNull
     private int coinsAmount;
     private String betSide;
 }

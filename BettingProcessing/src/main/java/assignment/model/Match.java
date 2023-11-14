@@ -8,7 +8,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class Match {
     @NonNull
     private UUID id;
