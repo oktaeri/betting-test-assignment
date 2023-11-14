@@ -52,7 +52,7 @@ public class BettingTest {
 
     @Test
     public void playerDataFileWithOneDataLineReturnsOnePlayer(){
-        String filepath = "src/test/resources/test_player_data_1.txt";
+        String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
 
@@ -61,7 +61,7 @@ public class BettingTest {
 
     @Test
     public void transactionGetsAddedToPlayer(){
-        String filepath = "src/test/resources/test_player_data_1.txt";
+        String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
@@ -71,7 +71,7 @@ public class BettingTest {
 
     @Test
     public void correctTransactionTypeGetsAddedToPlayerTransactions(){
-        String filepath = "src/test/resources/test_player_data_1.txt";
+        String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
@@ -82,7 +82,7 @@ public class BettingTest {
 
     @Test
     public void correctCoinsAmountGetsAddedToPlayerTransactions(){
-        String filepath = "src/test/resources/test_player_data_2.txt";
+        String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
@@ -90,4 +90,27 @@ public class BettingTest {
 
         Assertions.assertEquals(transaction.getCoinsAmount(), 550);
     }
+
+    @Test
+    public void correctBetSideGetsAddedToPlayerTransactions(){
+        String filepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        Player player = players.get(0);
+        Transaction transaction = player.getTransactions().get(0);
+
+        Assertions.assertEquals(transaction.getBetSide(), "B");
+    }
+
+    @Test
+    public void invalidBetSideDoesNotGetAddedToPlayerTransactions(){
+        String filepath = "src/test/resources/test_player_data_bet_with_amount_and_invalid_side.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        Player player = players.get(0);
+        Transaction transaction = player.getTransactions().get(0);
+
+        Assertions.assertNull(transaction.getBetSide());
+    }
+
 }

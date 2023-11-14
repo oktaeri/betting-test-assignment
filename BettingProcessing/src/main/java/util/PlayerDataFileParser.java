@@ -55,7 +55,14 @@ public class PlayerDataFileParser {
             coinsAmount = Integer.parseInt(data[3]);
         }
 
-        Transaction transaction = new Transaction(transactionType, matchId, coinsAmount, null);
+        String betSide = null;
+        if (data.length > 4 && !data[4].isEmpty()) {
+            if (Objects.equals(data[4], "A") || Objects.equals(data[4], "B")){
+                betSide = data[4];
+            }
+        }
+
+        Transaction transaction = new Transaction(transactionType, matchId, coinsAmount, betSide);
         player.getTransactions().add(transaction);
     }
 }
