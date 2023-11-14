@@ -16,6 +16,7 @@ public class Main {
         FileParser parser = new FileParser();
 
         String playerDataFilePath = "src/main/resources/player_data.txt";
+        String matchDataFilePath = "src/main/resources/match_data.txt";
 
         bettingData.setPlayers(parser.parsePlayerData(playerDataFilePath));
 
