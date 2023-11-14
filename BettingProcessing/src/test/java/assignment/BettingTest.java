@@ -6,7 +6,7 @@ import assignment.model.Transaction;
 import assignment.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import util.FileParser;
+import util.PlayerDataFileParser;
 
 import java.io.File;
 import java.util.List;
@@ -29,7 +29,7 @@ public class BettingTest {
     @Test
     public void playersGetParsedOnlyOnce(){
         String filepath = "src/main/resources/player_data.txt";
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
         BettingData bettingData = new BettingData();
 
         bettingData.setPlayers(parser.parsePlayerData(filepath));
@@ -40,7 +40,7 @@ public class BettingTest {
     @Test
     public void playersGetDefaultBalanceAfterParsing(){
         String filepath = "src/main/resources/player_data.txt";
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
         BettingData bettingData = new BettingData();
 
         bettingData.setPlayers(parser.parsePlayerData(filepath));
@@ -53,7 +53,7 @@ public class BettingTest {
     @Test
     public void playerDataFileWithOneDataLineReturnsOnePlayer(){
         String filepath = "src/test/resources/test_player_data_1.txt";
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
 
         Assertions.assertEquals(players.size(), 1);
@@ -62,7 +62,7 @@ public class BettingTest {
     @Test
     public void transactionGetsAddedToPlayer(){
         String filepath = "src/test/resources/test_player_data_1.txt";
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
 
@@ -72,11 +72,22 @@ public class BettingTest {
     @Test
     public void correctTransactionTypeGetsAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_1.txt";
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
         Assertions.assertEquals(transaction.getTransactionType(), TransactionType.BET);
+    }
+
+    @Test
+    public void correctCoinsAmountGetsAddedToPlayerTransactions(){
+        String filepath = "src/test/resources/test_player_data_2.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        Player player = players.get(0);
+        Transaction transaction = player.getTransactions().get(0);
+
+        Assertions.assertEquals(transaction.getCoinsAmount(), 550);
     }
 }

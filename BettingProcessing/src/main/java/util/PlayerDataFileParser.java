@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class FileParser {
+public class PlayerDataFileParser {
     private Player findPlayerById(UUID playerId, List<Player> players) {
         return players.stream()
                 .filter(player -> Objects.equals(player.getId(), playerId))
@@ -50,7 +50,12 @@ public class FileParser {
             matchId = UUID.fromString(data[2]);
         }
 
-        Transaction transaction = new Transaction(transactionType, matchId, 0, null);
+        int coinsAmount = 0;
+        if (data.length > 3 && !data[3].isEmpty()) {
+            coinsAmount = Integer.parseInt(data[3]);
+        }
+
+        Transaction transaction = new Transaction(transactionType, matchId, coinsAmount, null);
         player.getTransactions().add(transaction);
     }
 }

@@ -2,18 +2,12 @@ package assignment;
 
 import assignment.model.BettingData;
 import assignment.model.Player;
-import util.FileParser;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.UUID;
+import util.PlayerDataFileParser;
 
 public class Main {
     public static void main(String[] args) {
         BettingData bettingData = new BettingData();
-        FileParser parser = new FileParser();
+        PlayerDataFileParser parser = new PlayerDataFileParser();
 
         String playerDataFilePath = "src/main/resources/player_data.txt";
         String matchDataFilePath = "src/main/resources/match_data.txt";
