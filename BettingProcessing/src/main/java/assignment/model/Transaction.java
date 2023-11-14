@@ -10,8 +10,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Transaction {
     @NonNull
-    private UUID playerId;
-    @NonNull
     private TransactionType transactionType;
     private UUID matchId;
     private int coinsAmount;

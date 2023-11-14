@@ -11,5 +11,4 @@ import lombok.*;
 public class BettingData {
     private List<Player> players;
     private List<Match> matches;
-    private List<Transaction> transactions;
 }

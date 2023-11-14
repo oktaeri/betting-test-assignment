@@ -2,6 +2,8 @@ package assignment.model;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -12,4 +14,5 @@ public class Player {
     @NonNull
     private UUID id;
     private int balance = 0;
+    private List<Transaction> transactions = new ArrayList<>();
 }
