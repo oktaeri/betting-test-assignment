@@ -1,29 +1,28 @@
 package assignment.services;
 
-import assignment.model.Match;
-import assignment.model.Player;
-import assignment.model.Transaction;
-import assignment.model.TransactionType;
+import assignment.model.*;
 
 import java.util.List;
 
 public class TransactionProcessor {
     private final List<Player> players;
-    private final List<Match> matches;
     private final BetProcessor betProcessor;
+    private int casinoBalance;
 
     public TransactionProcessor(List<Player> players, List<Match> matches) {
         this.players = players;
-        this.matches = matches;
         this.betProcessor = new BetProcessor(matches);
+        this.casinoBalance = 0;
     }
 
-    public void processTransactions(){
+    public ResultData processTransactions(){
         for (Player player : players){
             for (Transaction transaction : player.getTransactions()) {
                 processTransaction(player, transaction);
             }
         }
+
+        return new ResultData(null, null, 0);
     }
 
     private void processTransaction(Player player, Transaction transaction){
