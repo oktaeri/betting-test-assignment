@@ -25,18 +25,10 @@ public class TransactionProcessor {
     }
 
     private void processTransaction(Player player, Transaction transaction){
-        TransactionType transactionType = transaction.getTransactionType();
-
         switch (transaction.getTransactionType()) {
-            case DEPOSIT:
-                processDeposit(player, transaction);
-                break;
-            case WITHDRAW:
-                processWithdrawal(player, transaction);
-                break;
-            case BET:
-                processBet(player, transaction);
-                break;
+            case DEPOSIT -> processDeposit(player, transaction);
+            case WITHDRAW -> processWithdrawal(player, transaction);
+            case BET -> processBet(player, transaction);
         }
     }
 
