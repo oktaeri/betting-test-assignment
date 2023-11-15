@@ -35,7 +35,7 @@ public class PlayerDataFileParser {
                     players.add(player);
                 }
 
-                processTransaction(player, splitLine);
+                parseTransaction(player, splitLine);
             }
         }catch (IOException e) {
             throw new RuntimeException(e);
@@ -43,7 +43,7 @@ public class PlayerDataFileParser {
         return players;
     }
 
-    private void processTransaction(Player player, String[] data){
+    private void parseTransaction(Player player, String[] data){
         TransactionType transactionType = TransactionType.valueOf(data[1]);
 
         UUID matchId = null;

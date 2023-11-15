@@ -1,6 +1,7 @@
 package assignment;
 
 import assignment.model.*;
+import assignment.services.TransactionProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.MatchDataFileParser;
@@ -125,6 +126,19 @@ public class BettingTest {
         List<Match> matches = parser.parseMatchData(filepath);
 
         Assertions.assertEquals(matches.size(), 13);
+    }
+
+    @Test
+    public void depositedAmountGetsAddedToPlayerBalance(){
+        String filepath = "src/test/resources/test_player_data_deposit.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(player.getBalance(), 550);
     }
 
 }
