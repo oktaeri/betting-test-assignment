@@ -13,5 +13,5 @@ public class Transaction {
     private TransactionType transactionType;
     private UUID matchId;
     private int coinsAmount;
-    private String betSide;
+    private MatchResult betSide;
 }

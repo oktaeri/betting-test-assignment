@@ -16,5 +16,5 @@ public class Match {
     @NonNull
     private BigDecimal returnRateB;
     @NonNull
-    private String result;
+    private MatchResult result;
 }

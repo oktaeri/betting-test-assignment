@@ -1,5 +1,6 @@
 package util;
 
+import assignment.model.MatchResult;
 import assignment.model.Player;
 import assignment.model.Transaction;
 import assignment.model.TransactionType;
@@ -62,10 +63,10 @@ public class PlayerDataFileParser {
             }
         }
 
-        String betSide = null;
+        MatchResult betSide = null;
         if (data.length > 4 && !data[4].isEmpty()) {
             if (Objects.equals(data[4], "A") || Objects.equals(data[4], "B")){
-                betSide = data[4];
+                betSide = MatchResult.valueOf(data[4]);
             }
         }
 

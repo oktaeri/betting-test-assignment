@@ -1,11 +1,9 @@
 package assignment;
 
-import assignment.model.BettingData;
-import assignment.model.Player;
-import assignment.model.Transaction;
-import assignment.model.TransactionType;
+import assignment.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import util.MatchDataFileParser;
 import util.PlayerDataFileParser;
 
 import java.io.File;
@@ -110,7 +108,7 @@ public class BettingTest {
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
-        Assertions.assertEquals(transaction.getBetSide(), "B");
+        Assertions.assertEquals(transaction.getBetSide(), MatchResult.B);
     }
 
     @Test
@@ -122,6 +120,15 @@ public class BettingTest {
         Transaction transaction = player.getTransactions().get(0);
 
         Assertions.assertNull(transaction.getBetSide());
+    }
+
+    @Test
+    public void allMatchesGetParsedToClass(){
+        String filepath = "src/main/resources/match_data.txt";
+        MatchDataFileParser parser = new MatchDataFileParser();
+        List<Match> matches = parser.parseMatchData(filepath);
+
+        Assertions.assertEquals(matches.size(), 13);
     }
 
 }
