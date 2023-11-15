@@ -8,12 +8,14 @@ import assignment.model.TransactionType;
 import java.util.List;
 
 public class TransactionProcessor {
-    private List<Player> players;
-    private List<Match> matches;
+    private final List<Player> players;
+    private final List<Match> matches;
+    private final BetProcessor betProcessor;
 
     public TransactionProcessor(List<Player> players, List<Match> matches) {
         this.players = players;
         this.matches = matches;
+        this.betProcessor = new BetProcessor(matches);
     }
 
     public void processTransactions(){
@@ -28,7 +30,7 @@ public class TransactionProcessor {
         switch (transaction.getTransactionType()) {
             case DEPOSIT -> processDeposit(player, transaction);
             case WITHDRAW -> processWithdrawal(player, transaction);
-            case BET -> processBet(player, transaction);
+            case BET -> betProcessor.processBet(player, transaction);
         }
     }
 
@@ -45,9 +47,5 @@ public class TransactionProcessor {
         } else {
             player.setIllegalAction(transaction);
         }
-    }
-
-    private void processBet(Player player, Transaction transaction){
-
     }
 }
