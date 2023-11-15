@@ -211,4 +211,23 @@ public class BettingTest {
 
         Assertions.assertEquals(player.getBalance(), 1275);
     }
+
+    @Test
+    public void playerWinsBetAndWonMatchesCountIncreases(){
+        String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(player.getMatchesWon(), 1);
+    }
 }

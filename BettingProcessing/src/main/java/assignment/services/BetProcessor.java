@@ -37,6 +37,7 @@ public class BetProcessor {
             BigDecimal winnings = returnRate.multiply(BigDecimal.valueOf(betAmount));
 
             player.setBalance(player.getBalance() + winnings.intValue());
+            player.setMatchesWon(player.getMatchesWon() + 1);
         } else {
             player.setBalance(player.getBalance() - betAmount);
         }
