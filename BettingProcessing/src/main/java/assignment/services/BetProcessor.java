@@ -33,6 +33,7 @@ public class BetProcessor {
 
         int betAmount = transaction.getCoinsAmount();
         if (!isBetValid(player, betAmount)){
+            player.setIllegalAction(transaction);
             return 0;
         }
         if (match.getResult() == transaction.getBetSide()){

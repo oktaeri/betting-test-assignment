@@ -23,7 +23,7 @@ public class TransactionProcessor {
             }
         }
 
-        List<Player> legalPlayers = players;
+        List<Player> legalPlayers = new ArrayList<>(players);
         legalPlayers.removeAll(getIllegalPlayers());
 
         return new ResultData(legalPlayers, getIllegalPlayers(), casinoBalance);

@@ -283,4 +283,40 @@ public class BettingTest {
 
         Assertions.assertEquals(result.getCasinoBalance(), 500);
     }
+
+    @Test
+    public void illegalBetIsAddedToPlayerIllegalAction(){
+        String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertNotNull(player.getIllegalAction());
+    }
+
+    @Test
+    public void illegalBetDoesNotAffectCasinoBalance(){
+        String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        ResultData result = transactionProcessor.processTransactions();
+
+        Assertions.assertEquals(result.getCasinoBalance(), 0);
+    }
 }
