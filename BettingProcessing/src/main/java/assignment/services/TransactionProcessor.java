@@ -2,6 +2,7 @@ package assignment.services;
 
 import assignment.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionProcessor {
@@ -22,14 +23,28 @@ public class TransactionProcessor {
             }
         }
 
-        return new ResultData(null, null, 0);
+        List<Player> legalPlayers = players;
+        legalPlayers.removeAll(getIllegalPlayers());
+
+        return new ResultData(legalPlayers, getIllegalPlayers(), casinoBalance);
+    }
+
+    private List<Player> getIllegalPlayers(){
+        List<Player> illegalPlayers = new ArrayList<>();
+
+        for (Player player : players) {
+            if (player.getIllegalAction() != null) {
+                illegalPlayers.add(player);
+            }
+        }
+        return illegalPlayers;
     }
 
     private void processTransaction(Player player, Transaction transaction){
         switch (transaction.getTransactionType()) {
             case DEPOSIT -> processDeposit(player, transaction);
             case WITHDRAW -> processWithdrawal(player, transaction);
-            case BET -> betProcessor.processBet(player, transaction);
+            case BET -> casinoBalance = casinoBalance + betProcessor.processBet(player, transaction);
         }
     }
 

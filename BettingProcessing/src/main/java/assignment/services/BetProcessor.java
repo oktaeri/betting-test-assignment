@@ -24,10 +24,17 @@ public class BetProcessor {
                 .orElse(null);
     }
 
-    public void processBet(Player player, Transaction transaction){
+    private boolean isBetValid(Player player, int betAmount){
+        return player.getBalance() > betAmount;
+    }
+
+    public int processBet(Player player, Transaction transaction){
         Match match = findMatchById(transaction.getMatchId());
 
         int betAmount = transaction.getCoinsAmount();
+        if (!isBetValid(player, betAmount)){
+            return 0;
+        }
         if (match.getResult() == transaction.getBetSide()){
 
             BigDecimal returnRate = (transaction.getBetSide() == MatchResult.A) ?
@@ -38,8 +45,12 @@ public class BetProcessor {
 
             player.setBalance(player.getBalance() + winnings.intValue());
             player.setMatchesWon(player.getMatchesWon() + 1);
+
+            return 0;
         } else {
             player.setBalance(player.getBalance() - betAmount);
+
+            return betAmount;
         }
     }
 }
