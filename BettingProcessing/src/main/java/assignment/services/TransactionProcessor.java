@@ -45,7 +45,14 @@ public class TransactionProcessor {
     }
 
     private void processWithdrawal(Player player, Transaction transaction){
-        player.setBalance(player.getBalance() - transaction.getCoinsAmount());
+        int playerBalance = player.getBalance();
+        int transactionCoinsAmount = transaction.getCoinsAmount();
+
+        if (playerBalance > transactionCoinsAmount){
+            player.setBalance(player.getBalance() - transaction.getCoinsAmount());
+        } else {
+            player.setIllegalAction(transaction);
+        }
     }
 
     private void processBet(Player player, Transaction transaction){

@@ -141,4 +141,17 @@ public class BettingTest {
         Assertions.assertEquals(player.getBalance(), 550);
     }
 
+    @Test
+    public void legalWithdrawalAmountGetsDeductedFromPlayerBalance(){
+        String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(player.getBalance(), 350);
+    }
+
 }
