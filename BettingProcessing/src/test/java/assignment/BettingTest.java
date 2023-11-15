@@ -28,22 +28,18 @@ public class BettingTest {
     public void playersGetParsedOnlyOnce(){
         String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
-        BettingData bettingData = new BettingData();
+        List<Player> players = parser.parsePlayerData(filepath);
 
-        bettingData.setPlayers(parser.parsePlayerData(filepath));
-
-        Assertions.assertEquals(bettingData.getPlayers().size(), 2);
+        Assertions.assertEquals(players.size(), 2);
     }
 
     @Test
     public void playersGetDefaultBalanceAfterParsing(){
         String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
-        BettingData bettingData = new BettingData();
+        List<Player> players = parser.parsePlayerData(filepath);
 
-        bettingData.setPlayers(parser.parsePlayerData(filepath));
-
-        for (Player player : bettingData.getPlayers()) {
+        for (Player player : players) {
             Assertions.assertEquals(player.getBalance(), 0);
         }
     }
