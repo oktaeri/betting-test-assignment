@@ -285,7 +285,7 @@ public class BettingTest {
     }
 
     @Test
-    public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetIsAddedToPlayerIllegalAction(){
+    public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetIsAddedToPlayerIllegalAction() {
         String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
