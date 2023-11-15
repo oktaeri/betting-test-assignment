@@ -12,21 +12,21 @@ import java.util.List;
 
 public class BettingTest {
     @Test
-    public void matchDataFileExists(){
+    public void givenMatchDataFile_whenCheckingExistence_thenFileExists(){
         String filepath = "src/main/resources/match_data.txt";
 
         Assertions.assertTrue(new File(filepath).isFile());
     }
 
     @Test
-    public void playerDataFileExists(){
+    public void givenPlayerDataFile_whenCheckingExistence_thenFileExists(){
         String filepath = "src/main/resources/player_data.txt";
 
         Assertions.assertTrue(new File(filepath).isFile());
     }
 
     @Test
-    public void playersGetParsedOnlyOnce(){
+    public void givenPlayerDataFile_whenParsingPlayers_thenPlayersParsedOnce(){
         String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -35,7 +35,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playersGetDefaultBalanceAfterParsing(){
+    public void givenPlayerDataFile_whenParsingPlayers_thenPlayersGetDefaultBalanceAfterParsing(){
         String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -46,7 +46,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerDataFileWithOneDataLineReturnsOnePlayer(){
+    public void givenPlayerDataFileWithOneDataLine_whenParsingPlayers_thenReturnsOnePlayer(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -55,7 +55,7 @@ public class BettingTest {
     }
 
     @Test
-    public void transactionGetsAddedToPlayer(){
+    public void givenTestPlayerDataFileEmptyBet_whenParsingPlayers_thenTransactionGetsAddedToPlayer(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -65,7 +65,7 @@ public class BettingTest {
     }
 
     @Test
-    public void correctTransactionTypeGetsAddedToPlayerTransactions(){
+    public void givenTestPlayerDataFileEmptyBet_whenParsingPlayers_thenCorrectTransactionTypeAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -76,7 +76,7 @@ public class BettingTest {
     }
 
     @Test
-    public void correctCoinsAmountGetsAddedToPlayerTransactions(){
+    public void givenTestPlayerDataDepositFile_whenParsingPlayers_thenCorrectCoinsAmountAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -87,7 +87,7 @@ public class BettingTest {
     }
 
     @Test
-    public void invalidCoinsAmountDoesNotGetAddedToPlayerTransactions(){
+    public void givenTestPlayerDataBetWithInvalidAmountAndSide_whenParsingPlayers_thenInvalidCoinsAmountDoesNotGetAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_invalid_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -98,7 +98,7 @@ public class BettingTest {
     }
 
     @Test
-    public void correctBetSideGetsAddedToPlayerTransactions(){
+    public void givenTestPlayerDataBetWithAmountAndSide_whenParsingPlayers_thenCorrectBetSideAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -109,7 +109,7 @@ public class BettingTest {
     }
 
     @Test
-    public void invalidBetSideDoesNotGetAddedToPlayerTransactions(){
+    public void givenTestPlayerDataFileBetWithInvalidSide_whenParsingPlayers_thenInvalidBetSideDoesNotGetAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_amount_and_invalid_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -120,7 +120,7 @@ public class BettingTest {
     }
 
     @Test
-    public void allMatchesGetParsedToClass(){
+    public void givenMatchDataFile_whenParsingMatches_thenAllMatchesGetParsedToMatchClass(){
         String filepath = "src/main/resources/match_data.txt";
         MatchDataFileParser parser = new MatchDataFileParser();
         List<Match> matches = parser.parseMatchData(filepath);
@@ -129,7 +129,7 @@ public class BettingTest {
     }
 
     @Test
-    public void depositedAmountGetsAddedToPlayerBalance(){
+    public void givenTestPlayerDataFileDeposit_whenProcessingTransactions_thenDepositedAmountGetsAddedToPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -142,7 +142,7 @@ public class BettingTest {
     }
 
     @Test
-    public void legalWithdrawalAmountGetsDeductedFromPlayerBalance(){
+    public void givenTestPlayerDataFileDepositAndWithdrawLegal_whenProcessingTransactions_thenLegalWithdrawalAmountGetsDeductedFromPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -155,7 +155,7 @@ public class BettingTest {
     }
 
     @Test
-    public void illegalWithdrawalAmountDoesNotGetDeductedFromPlayerBalance(){
+    public void givenTestPlayerDataFileDepositAndWithdrawIllegal_whenProcessingTransactions_thenIllegalWithdrawalAmountDoesNotGetDeductedFromPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -168,7 +168,7 @@ public class BettingTest {
     }
 
     @Test
-    public void illegalWithdrawalGetsAddedToPlayerIllegalActions(){
+    public void givenTestPlayerDataFileDepositAndWithdrawIllegal_whenProcessingTransactions_thenIllegalWithdrawalGetsAddedToPlayerIllegalActions(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -181,7 +181,7 @@ public class BettingTest {
     }
 
     @Test
-    public void illegalWithdrawalDoesNotGetAddedToPlayerIllegalActions(){
+    public void givenTestPlayerDataFileDepositAndWithdrawLegal_whenProcessingTransactions_thenIllegalWithdrawalDoesNotGetAddedToPlayerIllegalActions(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
@@ -194,7 +194,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerWinsBetAndGetsCoinsAddedToBalance(){
+    public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndGetsCoinsAddedToBalance(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -213,7 +213,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerWinsBetAndWonMatchesCountIncreases(){
+    public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndWonMatchesCountIncreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -232,7 +232,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerLosesBetAndPlayerBalanceDecreases(){
+    public void givenTestPlayerDataFileDepositAndBetLosingSide_whenProcessingTransactions_thenPlayerLosesBetAndPlayerBalanceDecreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_losing_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -251,7 +251,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerWinsBetAndCasinoBalanceIsNotAffected(){
+    public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndCasinoBalanceIsNotAffected(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -268,7 +268,7 @@ public class BettingTest {
     }
 
     @Test
-    public void playerLosesBetAndCasinoBalanceIncreases(){
+    public void givenTestPlayerDataFileDepositAndBetLosingSide_whenProcessingTransactions_thenPlayerLosesBetAndCasinoBalanceIncreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_losing_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -285,7 +285,7 @@ public class BettingTest {
     }
 
     @Test
-    public void illegalBetIsAddedToPlayerIllegalAction(){
+    public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetIsAddedToPlayerIllegalAction(){
         String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -304,7 +304,7 @@ public class BettingTest {
     }
 
     @Test
-    public void illegalBetDoesNotAffectCasinoBalance(){
+    public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetDoesNotAffectCasinoBalance(){
         String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
