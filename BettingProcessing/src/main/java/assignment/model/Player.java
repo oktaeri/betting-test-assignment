@@ -16,5 +16,7 @@ public class Player {
     private int balance = 0;
     private List<Transaction> transactions = new ArrayList<>();
     private int matchesWon = 0;
+    private int profit = 0;
+    private int loss = 0;
     private Transaction illegalAction;
 }

@@ -8,12 +8,10 @@ import java.util.List;
 public class TransactionProcessor {
     private final List<Player> players;
     private final BetProcessor betProcessor;
-    private int casinoBalance;
 
     public TransactionProcessor(List<Player> players, List<Match> matches) {
         this.players = players;
         this.betProcessor = new BetProcessor(matches);
-        this.casinoBalance = 0;
     }
 
     public ResultData processTransactions(){
@@ -26,7 +24,18 @@ public class TransactionProcessor {
         List<Player> legalPlayers = new ArrayList<>(players);
         legalPlayers.removeAll(getIllegalPlayers());
 
-        return new ResultData(legalPlayers, getIllegalPlayers(), casinoBalance);
+        return new ResultData(legalPlayers, getIllegalPlayers(), getCasinoBalance(legalPlayers));
+    }
+
+    private int getCasinoBalance(List<Player> legalPlayers){
+        int casinoBalance = 0;
+
+        for (Player player : legalPlayers) {
+            casinoBalance = casinoBalance + player.getLoss();
+            casinoBalance = casinoBalance - player.getProfit();
+        }
+
+        return casinoBalance;
     }
 
     private List<Player> getIllegalPlayers(){
@@ -44,7 +53,7 @@ public class TransactionProcessor {
         switch (transaction.getTransactionType()) {
             case DEPOSIT -> processDeposit(player, transaction);
             case WITHDRAW -> processWithdrawal(player, transaction);
-            case BET -> casinoBalance = casinoBalance + betProcessor.processBet(player, transaction);
+            case BET -> betProcessor.processBet(player, transaction);
         }
     }
 

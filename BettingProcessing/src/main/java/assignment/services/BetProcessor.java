@@ -28,22 +28,20 @@ public class BetProcessor {
         return player.getBalance() > betAmount;
     }
 
-    public int processBet(Player player, Transaction transaction){
+    public void processBet(Player player, Transaction transaction){
         int betAmount = transaction.getCoinsAmount();
 
         if (!isBetValid(player, betAmount)){
             player.setIllegalAction(transaction);
-            return 0;
         }
 
         Match match = findMatchById(transaction.getMatchId());
 
         if (match.getResult() == MatchResult.DRAW) {
-            return 0;
+            return;
         }
 
         if (match.getResult() == transaction.getBetSide()){
-
             BigDecimal returnRate = (transaction.getBetSide() == MatchResult.A) ?
                     match.getReturnRateA() :
                     match.getReturnRateB();
@@ -51,13 +49,11 @@ public class BetProcessor {
             BigDecimal winnings = returnRate.multiply(BigDecimal.valueOf(betAmount));
 
             player.setBalance(player.getBalance() + winnings.intValue());
+            player.setProfit(player.getProfit() + winnings.intValue());
             player.setMatchesWon(player.getMatchesWon() + 1);
-
-            return -winnings.intValue();
         } else {
             player.setBalance(player.getBalance() - betAmount);
-
-            return betAmount;
+            player.setLoss(player.getLoss() + betAmount);
         }
     }
 }

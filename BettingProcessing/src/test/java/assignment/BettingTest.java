@@ -251,7 +251,7 @@ public class BettingTest {
     }
 
     @Test
-    public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndCasinoBalanceIsNotAffected(){
+    public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndCasinoBalanceIsNegative(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
 
@@ -264,7 +264,7 @@ public class BettingTest {
         TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
-        Assertions.assertEquals(0, result.getCasinoBalance());
+        Assertions.assertEquals(-725, result.getCasinoBalance());
     }
 
     @Test
