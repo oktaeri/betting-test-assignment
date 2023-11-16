@@ -8,7 +8,6 @@
 *.ipr
 out/
 !**/src/main/**/out/
-!**/src/main/out/result.txt
 !**/src/test/**/out/
 
 ### Eclipse ###
