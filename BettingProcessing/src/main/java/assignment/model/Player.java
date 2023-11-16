@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class Player {
     @NonNull

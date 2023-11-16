@@ -1,4 +1,4 @@
-package util;
+package assignment.util;
 
 import assignment.model.Player;
 import assignment.model.ResultData;

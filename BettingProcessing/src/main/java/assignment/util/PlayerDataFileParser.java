@@ -1,4 +1,4 @@
-package util;
+package assignment.util;
 
 import assignment.model.MatchResult;
 import assignment.model.Player;

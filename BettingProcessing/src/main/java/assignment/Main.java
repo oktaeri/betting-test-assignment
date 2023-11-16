@@ -4,15 +4,15 @@ import assignment.model.Match;
 import assignment.model.Player;
 import assignment.model.ResultData;
 import assignment.services.TransactionService;
-import util.MatchDataFileParser;
-import util.PlayerDataFileParser;
-import util.ResultDataToFile;
+import assignment.util.MatchDataFileParser;
+import assignment.util.PlayerDataFileParser;
+import assignment.util.ResultDataToFile;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO: figure out how to get code coverage to 100%, parse results to file
+        // TODO: figure out how to get code coverage to 100%
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
         ResultDataToFile resultDataToFile = new ResultDataToFile();

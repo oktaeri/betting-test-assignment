@@ -25,7 +25,7 @@ public class BetService {
     }
 
     private boolean isBetValid(Player player, int betAmount){
-        return player.getBalance() > betAmount;
+        return player.getBalance() >= betAmount;
     }
 
     public void processBet(Player player, Transaction transaction){
@@ -33,6 +33,7 @@ public class BetService {
 
         if (!isBetValid(player, betAmount)){
             player.setIllegalAction(transaction);
+            return;
         }
 
         Match match = findMatchById(transaction.getMatchId());

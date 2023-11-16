@@ -1,4 +1,4 @@
-package util;
+package assignment.util;
 
 import assignment.model.Match;
 import assignment.model.MatchResult;

@@ -1,15 +1,18 @@
 package assignment;
 
 import assignment.model.*;
+import assignment.services.BetService;
 import assignment.services.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import util.MatchDataFileParser;
-import util.PlayerDataFileParser;
+import assignment.util.MatchDataFileParser;
+import assignment.util.PlayerDataFileParser;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BettingTest {
     @Test
@@ -412,5 +415,20 @@ public class BettingTest {
         Player player = players.get(1);
 
         Assertions.assertEquals("4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null", player.illegalToString());
+    }
+
+    @Test
+    public void givenPlayerAndIllegalBet_whenProcessingBets_thenIllegalTransactionIsAddedToPlayerIllegalAction(){
+        List<Match> matches = new ArrayList<>();
+        Player player = new Player(UUID.randomUUID());
+        Match match = new Match(UUID.randomUUID(), BigDecimal.valueOf(1.46), BigDecimal.valueOf(0.2), MatchResult.B);
+        Transaction transaction = new Transaction(TransactionType.BET, match.getId(), 500, MatchResult.B);
+        player.getTransactions().add(transaction);
+        matches.add(match);
+        BetService betService = new BetService(matches);
+
+        betService.processBet(player, transaction);
+
+        Assertions.assertEquals(transaction, player.getIllegalAction());
     }
 }

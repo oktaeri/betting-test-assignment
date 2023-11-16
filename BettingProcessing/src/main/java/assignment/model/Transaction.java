@@ -5,9 +5,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class Transaction {
     @NonNull
     private TransactionType transactionType;
