@@ -14,4 +14,8 @@ public class Transaction {
     private UUID matchId;
     private int coinsAmount;
     private MatchResult betSide;
+
+    public String toString(){
+        return transactionType + " " + matchId + " " + coinsAmount + " " + betSide;
+    }
 }

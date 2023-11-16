@@ -392,7 +392,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.toString(), "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14");
+        Assertions.assertEquals("163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14", player.toString());
     }
 
     @Test
@@ -411,6 +411,6 @@ public class BettingTest {
 
         Player player = players.get(1);
 
-        Assertions.assertEquals(player.toString(), "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null");
+        Assertions.assertEquals("4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null", player.illegalToString());
     }
 }

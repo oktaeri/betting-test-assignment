@@ -44,7 +44,7 @@ public class Player {
     }
 
     public String illegalToString() {
-        return this.id + illegalAction.toString();
+        return this.id + " " + illegalAction.toString();
     }
 
 }
