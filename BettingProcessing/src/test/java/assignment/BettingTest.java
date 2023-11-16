@@ -8,6 +8,7 @@ import util.MatchDataFileParser;
 import util.PlayerDataFileParser;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class BettingTest {
@@ -354,5 +355,62 @@ public class BettingTest {
         Player player = players.get(0);
 
         Assertions.assertEquals(2725, player.getBalance());
+    }
+
+    @Test
+    public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerWinRatioIsCorrect(){
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(BigDecimal.valueOf(0.14), player.getWinRatio());
+    }
+
+    @Test
+    public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerToStringIsCorrect(){
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(player.toString(), "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14");
+    }
+
+    @Test
+    public void givenSamplePlayerDataFile_whenProcessingTransactions_thenIllegalPlayerToStringIsCorrect(){
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(1);
+
+        Assertions.assertEquals(player.toString(), "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null");
     }
 }

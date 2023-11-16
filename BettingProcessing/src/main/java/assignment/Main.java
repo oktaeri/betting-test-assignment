@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO: figure out how to get code coverage to 100%, parse results to file, fix casino balance
+        // TODO: figure out how to get code coverage to 100%, parse results to file
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 

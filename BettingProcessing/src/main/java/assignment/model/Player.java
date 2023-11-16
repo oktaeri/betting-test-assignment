@@ -2,6 +2,9 @@ package assignment.model;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,4 +22,29 @@ public class Player {
     private int profit = 0;
     private int loss = 0;
     private Transaction illegalAction;
+
+    private BigDecimal getMatchCount(){
+        BigDecimal matches = BigDecimal.valueOf(0);
+        for (Transaction transaction: transactions) {
+            if (transaction.getTransactionType() == TransactionType.BET){
+                matches = matches.add(BigDecimal.valueOf(1));
+            }
+        }
+        return matches;
+    }
+
+    public BigDecimal getWinRatio(){
+        return  BigDecimal.valueOf(matchesWon)
+                .divide(getMatchCount(), 2, RoundingMode.HALF_UP);
+
+    }
+
+    public String toString(){
+        return this.id + " " + this.balance + " " + getWinRatio().toString().replace(".", ",");
+    }
+
+    public String illegalToString() {
+        return this.id + illegalAction.toString();
+    }
+
 }
