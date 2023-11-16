@@ -29,13 +29,15 @@ public class BetProcessor {
     }
 
     public int processBet(Player player, Transaction transaction){
-        Match match = findMatchById(transaction.getMatchId());
-
         int betAmount = transaction.getCoinsAmount();
+
         if (!isBetValid(player, betAmount)){
             player.setIllegalAction(transaction);
             return 0;
         }
+
+        Match match = findMatchById(transaction.getMatchId());
+
         if (match.getResult() == transaction.getBetSide()){
 
             BigDecimal returnRate = (transaction.getBetSide() == MatchResult.A) ?

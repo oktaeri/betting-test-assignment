@@ -31,7 +31,7 @@ public class BettingTest {
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
 
-        Assertions.assertEquals(players.size(), 2);
+        Assertions.assertEquals(2, players.size());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class BettingTest {
         List<Player> players = parser.parsePlayerData(filepath);
 
         for (Player player : players) {
-            Assertions.assertEquals(player.getBalance(), 0);
+            Assertions.assertEquals(0, player.getBalance());
         }
     }
 
@@ -51,7 +51,7 @@ public class BettingTest {
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
 
-        Assertions.assertEquals(players.size(), 1);
+        Assertions.assertEquals(1, players.size());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class BettingTest {
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getTransactions().size(), 1);
+        Assertions.assertEquals(1, player.getTransactions().size());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class BettingTest {
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
-        Assertions.assertEquals(transaction.getTransactionType(), TransactionType.BET);
+        Assertions.assertEquals(TransactionType.BET, transaction.getTransactionType());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class BettingTest {
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
-        Assertions.assertEquals(transaction.getCoinsAmount(), 550);
+        Assertions.assertEquals(550, transaction.getCoinsAmount());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class BettingTest {
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
-        Assertions.assertEquals(transaction.getCoinsAmount(), 0);
+        Assertions.assertEquals(0, transaction.getCoinsAmount());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class BettingTest {
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
 
-        Assertions.assertEquals(transaction.getBetSide(), MatchResult.B);
+        Assertions.assertEquals(MatchResult.B, transaction.getBetSide());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class BettingTest {
         MatchDataFileParser parser = new MatchDataFileParser();
         List<Match> matches = parser.parseMatchData(filepath);
 
-        Assertions.assertEquals(matches.size(), 13);
+        Assertions.assertEquals(13, matches.size());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getBalance(), 550);
+        Assertions.assertEquals(550, player.getBalance());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getBalance(), 350);
+        Assertions.assertEquals(350, player.getBalance());
     }
 
     @Test
@@ -164,7 +164,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getBalance(), 550);
+        Assertions.assertEquals(550, player.getBalance());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getBalance(), 1275);
+        Assertions.assertEquals(1275, player.getBalance());
     }
 
     @Test
@@ -228,7 +228,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getMatchesWon(), 1);
+        Assertions.assertEquals(1, player.getMatchesWon());
     }
 
     @Test
@@ -247,7 +247,7 @@ public class BettingTest {
 
         Player player = players.get(0);
 
-        Assertions.assertEquals(player.getBalance(), 50);
+        Assertions.assertEquals(50, player.getBalance());
     }
 
     @Test
@@ -264,7 +264,7 @@ public class BettingTest {
         TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
-        Assertions.assertEquals(result.getCasinoBalance(), 0);
+        Assertions.assertEquals(0, result.getCasinoBalance());
     }
 
     @Test
@@ -281,7 +281,7 @@ public class BettingTest {
         TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
-        Assertions.assertEquals(result.getCasinoBalance(), 500);
+        Assertions.assertEquals(500, result.getCasinoBalance());
     }
 
     @Test
@@ -317,6 +317,23 @@ public class BettingTest {
         TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
-        Assertions.assertEquals(result.getCasinoBalance(), 0);
+        Assertions.assertEquals(0, result.getCasinoBalance());
+    }
+
+    @Test
+    public void givenSamplePlayerDataFile_whenProcessingTransactions_thenCasinoBalanceIsCorrect(){
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        ResultData result = transactionProcessor.processTransactions();
+
+        Assertions.assertEquals(75, result.getCasinoBalance());
     }
 }
