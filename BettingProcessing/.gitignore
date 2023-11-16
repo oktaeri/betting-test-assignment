@@ -9,7 +9,7 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-**/src/main/result/result.txt
+**/src/main/resources/result.txt
 
 ### Eclipse ###
 .apt_generated
