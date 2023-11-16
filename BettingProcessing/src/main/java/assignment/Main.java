@@ -26,6 +26,6 @@ public class Main {
         TransactionService processor = new TransactionService(players, matches);
 
         ResultData resultData = processor.processTransactions();
-        resultDataToFile.write(resultData, "src/main/out/result.txt");
+        resultDataToFile.write(resultData, "src/main/result/result.txt");
     }
 }
