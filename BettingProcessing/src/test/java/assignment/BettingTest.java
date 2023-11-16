@@ -336,4 +336,23 @@ public class BettingTest {
 
         Assertions.assertEquals(75, result.getCasinoBalance());
     }
+
+    @Test
+    public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerBalanceIsCorrect(){
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        transactionProcessor.processTransactions();
+
+        Player player = players.get(0);
+
+        Assertions.assertEquals(2725, player.getBalance());
+    }
 }

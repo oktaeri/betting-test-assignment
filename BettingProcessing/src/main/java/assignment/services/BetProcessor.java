@@ -38,6 +38,10 @@ public class BetProcessor {
 
         Match match = findMatchById(transaction.getMatchId());
 
+        if (match.getResult() == MatchResult.DRAW) {
+            return 0;
+        }
+
         if (match.getResult() == transaction.getBetSide()){
 
             BigDecimal returnRate = (transaction.getBetSide() == MatchResult.A) ?
@@ -49,7 +53,7 @@ public class BetProcessor {
             player.setBalance(player.getBalance() + winnings.intValue());
             player.setMatchesWon(player.getMatchesWon() + 1);
 
-            return 0;
+            return -winnings.intValue();
         } else {
             player.setBalance(player.getBalance() - betAmount);
 

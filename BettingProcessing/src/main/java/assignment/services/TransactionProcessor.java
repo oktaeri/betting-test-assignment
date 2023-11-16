@@ -43,7 +43,7 @@ public class TransactionProcessor {
     private void processTransaction(Player player, Transaction transaction){
         switch (transaction.getTransactionType()) {
             case DEPOSIT -> processDeposit(player, transaction);
-            case WITHDRAW -> casinoBalance = casinoBalance - processWithdrawal(player, transaction);
+            case WITHDRAW -> processWithdrawal(player, transaction);
             case BET -> casinoBalance = casinoBalance + betProcessor.processBet(player, transaction);
         }
     }
@@ -52,16 +52,14 @@ public class TransactionProcessor {
         player.setBalance(player.getBalance() + transaction.getCoinsAmount());
     }
 
-    private int processWithdrawal(Player player, Transaction transaction){
+    private void processWithdrawal(Player player, Transaction transaction){
         int playerBalance = player.getBalance();
         int transactionCoinsAmount = transaction.getCoinsAmount();
 
         if (playerBalance > transactionCoinsAmount){
             player.setBalance(player.getBalance() - transactionCoinsAmount);
-            return transactionCoinsAmount;
         } else {
             player.setIllegalAction(transaction);
-            return 0;
         }
     }
 }
