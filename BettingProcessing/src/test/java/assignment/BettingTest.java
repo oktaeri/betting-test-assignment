@@ -1,7 +1,7 @@
 package assignment;
 
 import assignment.model.*;
-import assignment.services.TransactionProcessor;
+import assignment.services.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.MatchDataFileParser;
@@ -133,7 +133,7 @@ public class BettingTest {
         String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -146,7 +146,7 @@ public class BettingTest {
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -159,7 +159,7 @@ public class BettingTest {
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -172,7 +172,7 @@ public class BettingTest {
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -185,7 +185,7 @@ public class BettingTest {
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, null);
+        TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -204,7 +204,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -223,7 +223,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -242,7 +242,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -261,7 +261,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
         Assertions.assertEquals(-725, result.getCasinoBalance());
@@ -278,7 +278,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
         Assertions.assertEquals(500, result.getCasinoBalance());
@@ -295,7 +295,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);
@@ -314,7 +314,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
         Assertions.assertEquals(0, result.getCasinoBalance());
@@ -331,7 +331,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
         Assertions.assertEquals(75, result.getCasinoBalance());
@@ -348,7 +348,7 @@ public class BettingTest {
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
         List<Match> matches = matchParser.parseMatchData(matchesFilepath);
 
-        TransactionProcessor transactionProcessor = new TransactionProcessor(players, matches);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
 
         Player player = players.get(0);

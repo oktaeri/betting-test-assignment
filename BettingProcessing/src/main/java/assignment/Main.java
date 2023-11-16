@@ -3,7 +3,7 @@ package assignment;
 import assignment.model.Match;
 import assignment.model.Player;
 import assignment.model.ResultData;
-import assignment.services.TransactionProcessor;
+import assignment.services.TransactionService;
 import util.MatchDataFileParser;
 import util.PlayerDataFileParser;
 
@@ -21,7 +21,7 @@ public class Main {
         List<Player> players = playerParser.parsePlayerData(playerDataFilePath);
         List<Match> matches = matchParser.parseMatchData(matchDataFilePath);
 
-        TransactionProcessor processor = new TransactionProcessor(players, matches);
+        TransactionService processor = new TransactionService(players, matches);
 
         ResultData resultData = processor.processTransactions();
     }

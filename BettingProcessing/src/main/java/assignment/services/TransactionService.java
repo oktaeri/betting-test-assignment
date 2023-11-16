@@ -5,13 +5,13 @@ import assignment.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionProcessor {
+public class TransactionService {
     private final List<Player> players;
-    private final BetProcessor betProcessor;
+    private final BetService betProcessor;
 
-    public TransactionProcessor(List<Player> players, List<Match> matches) {
+    public TransactionService(List<Player> players, List<Match> matches) {
         this.players = players;
-        this.betProcessor = new BetProcessor(matches);
+        this.betProcessor = new BetService(matches);
     }
 
     public ResultData processTransactions(){
@@ -50,25 +50,13 @@ public class TransactionProcessor {
     }
 
     private void processTransaction(Player player, Transaction transaction){
+        WithdrawalService withdrawalProcessor = new WithdrawalService();
+        DepositService depositProcessor = new DepositService();
+
         switch (transaction.getTransactionType()) {
-            case DEPOSIT -> processDeposit(player, transaction);
-            case WITHDRAW -> processWithdrawal(player, transaction);
+            case DEPOSIT -> depositProcessor.processDeposit(player, transaction);
+            case WITHDRAW -> withdrawalProcessor.processWithdrawal(player, transaction);
             case BET -> betProcessor.processBet(player, transaction);
-        }
-    }
-
-    private void processDeposit(Player player, Transaction transaction){
-        player.setBalance(player.getBalance() + transaction.getCoinsAmount());
-    }
-
-    private void processWithdrawal(Player player, Transaction transaction){
-        int playerBalance = player.getBalance();
-        int transactionCoinsAmount = transaction.getCoinsAmount();
-
-        if (playerBalance > transactionCoinsAmount){
-            player.setBalance(player.getBalance() - transactionCoinsAmount);
-        } else {
-            player.setIllegalAction(transaction);
         }
     }
 }

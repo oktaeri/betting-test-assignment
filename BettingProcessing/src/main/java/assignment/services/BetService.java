@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class BetProcessor {
+public class BetService {
     private final List<Match> matches;
 
-    public BetProcessor(List<Match> matches) {
+    public BetService(List<Match> matches) {
         this.matches = matches;
     }
 
