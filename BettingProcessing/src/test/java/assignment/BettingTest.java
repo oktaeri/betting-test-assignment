@@ -431,4 +431,22 @@ public class BettingTest {
 
         Assertions.assertEquals(transaction, player.getIllegalAction());
     }
+
+    @Test
+    public void givenNonExistentFile_whenParsingPlayerData_thenThrowsRuntimeException(){
+        String fakeFile = "this_does_not_exist.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new PlayerDataFileParser().parsePlayerData(fakeFile);
+        });
+    }
+
+    @Test
+    public void givenNonExistentFile_whenParsingMatchData_thenThrowsRuntimeException(){
+        String fakeFile = "this_does_not_exist.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new MatchDataFileParser().parseMatchData(fakeFile);
+        });
+    }
 }
