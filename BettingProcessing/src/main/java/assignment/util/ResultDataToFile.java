@@ -6,15 +6,18 @@ import assignment.model.ResultData;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class ResultDataToFile {
     private String getResultString(ResultData data){
         String legalPlayersData = data.getLegalPlayers().stream()
+                .sorted(Comparator.comparing(Player::getId))
                 .map(Player::toString)
                 .collect(Collectors.joining("\n"));
 
         String illegalPlayersData = data.getIllegalPlayers().stream()
+                .sorted(Comparator.comparing(Player::getId))
                 .map(Player::illegalToString)
                 .collect(Collectors.joining("\n"));
 
