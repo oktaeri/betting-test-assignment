@@ -3,13 +3,17 @@ package assignment;
 import assignment.model.*;
 import assignment.services.BetService;
 import assignment.services.TransactionService;
+import assignment.util.ResultDataToFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import assignment.util.MatchDataFileParser;
 import assignment.util.PlayerDataFileParser;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -497,6 +501,56 @@ public class BettingTest {
         Assertions.assertThrows(RuntimeException.class, () -> {
             new PlayerDataFileParser().parsePlayerData(invalidFile);
         });
+    }
+
+    @Test
+    public void givenOnlyLegalPlayers_whenProcessingTransactions_thenResultFileHasNoIllegalPlayers() throws IOException {
+        String expected = "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14\n" +
+                "4925ac98-833b-454b-9342-13ed3dfd3ccf 723 0,50\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "-148";
+        String playerFilepath = "src/test/resources/test_player_data_all_legal.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+        ResultDataToFile resultDataToFile = new ResultDataToFile();
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+
+        String resultPath = "src/test/resources/test_result.txt";
+        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
+
+        String fileContent = Files.readString(Paths.get(resultPath));
+
+        Assertions.assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void givenOnlyIlegalPlayers_whenProcessingTransactions_thenResultFileHasNoLegalPlayers() throws IOException {
+        String expected = "\n" +
+                "\n" +
+                "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 BET a3815c17-9def-4034-a21f-65369f6d4a56 200000 A\n" +
+                "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null\n" +
+                "\n" +
+                "0";
+        String playerFilepath = "src/test/resources/test_player_data_all_illegal.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+        ResultDataToFile resultDataToFile = new ResultDataToFile();
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+
+        String resultPath = "src/test/resources/test_result.txt";
+        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
+
+        String fileContent = Files.readString(Paths.get(resultPath));
+
+        Assertions.assertEquals(expected, fileContent);
     }
 
 }

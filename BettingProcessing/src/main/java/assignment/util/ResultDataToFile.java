@@ -6,33 +6,19 @@ import assignment.model.ResultData;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class ResultDataToFile {
     private String getResultString(ResultData data){
-        StringBuilder resultString = new StringBuilder();
+        String legalPlayersData = data.getLegalPlayers().stream()
+                .map(Player::toString)
+                .collect(Collectors.joining("\n"));
 
-        if (data.getLegalPlayers().isEmpty()) {
-            resultString.append("\n");
-        } else {
-            for (Player legalPlayer : data.getLegalPlayers()) {
-                resultString.append(legalPlayer.toString() + "\n");
-            }
-        }
+        String illegalPlayersData = data.getIllegalPlayers().stream()
+                .map(Player::illegalToString)
+                .collect(Collectors.joining("\n"));
 
-        resultString.append("\n");
-
-        if (data.getIllegalPlayers().isEmpty()) {
-            resultString.append("\n");
-        } else {
-            for (Player illegalPlayer : data.getIllegalPlayers()){
-                resultString.append(illegalPlayer.illegalToString() + "\n");
-            }
-        }
-
-        resultString.append("\n");
-        resultString.append(data.getCasinoBalance());
-
-        return resultString.toString();
+        return legalPlayersData + "\n\n" + illegalPlayersData + "\n\n" + data.getCasinoBalance();
     }
     public void write(ResultData data, String filepath){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
