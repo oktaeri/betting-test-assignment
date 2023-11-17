@@ -553,4 +553,28 @@ public class BettingTest {
         Assertions.assertEquals(expected, fileContent);
     }
 
+    @Test
+    public void givenSampleData_whenProcessingTransactions_thenResultFileHasCorrectContent() throws IOException {
+        String expected = "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14\n" +
+                "\n" +
+                "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null\n" +
+                "\n" +
+                "75";
+        String playerFilepath = "src/main/resources/player_data.txt";
+        String matchesFilepath = "src/main/resources/match_data.txt";
+        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+        MatchDataFileParser matchParser = new MatchDataFileParser();
+        ResultDataToFile resultDataToFile = new ResultDataToFile();
+        List<Player> players = playerParser.parsePlayerData(playerFilepath);
+        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+        TransactionService transactionProcessor = new TransactionService(players, matches);
+
+        String resultPath = "src/test/resources/test_result.txt";
+        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
+
+        String fileContent = Files.readString(Paths.get(resultPath));
+
+        Assertions.assertEquals(expected, fileContent);
+    }
+
 }
