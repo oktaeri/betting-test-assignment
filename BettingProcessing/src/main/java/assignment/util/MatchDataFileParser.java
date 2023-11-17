@@ -2,7 +2,6 @@ package assignment.util;
 
 import assignment.model.Match;
 import assignment.model.MatchResult;
-import assignment.model.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

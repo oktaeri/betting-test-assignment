@@ -37,6 +37,7 @@ public class Player {
 
     }
 
+    @Override
     public String toString(){
         return this.id + " " + this.balance + " " + getWinRatio().toString().replace(".", ",");
     }

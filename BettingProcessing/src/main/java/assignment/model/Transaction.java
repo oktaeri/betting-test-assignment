@@ -13,6 +13,7 @@ public class Transaction {
     private int coinsAmount;
     private MatchResult betSide;
 
+    @Override
     public String toString(){
         return transactionType + " " + matchId + " " + coinsAmount + " " + betSide;
     }

@@ -44,8 +44,6 @@ public class PlayerDataFileParser {
     }
 
     private void parseTransaction(Player player, String[] data){
-        TransactionType transactionType = TransactionType.valueOf(data[1]);
-
         UUID matchId = null;
         if (data.length > 2 && !data[2].isEmpty()){
             matchId = UUID.fromString(data[2]);
@@ -64,12 +62,11 @@ public class PlayerDataFileParser {
         }
 
         MatchResult betSide = null;
-        if (data.length > 4 && !data[4].isEmpty()) {
-            if (Objects.equals(data[4], "A") || Objects.equals(data[4], "B")){
-                betSide = MatchResult.valueOf(data[4]);
-            }
+        if (data.length > 4 && !data[4].isEmpty() && (Objects.equals(data[4], "A") || Objects.equals(data[4], "B"))) {
+            betSide = MatchResult.valueOf(data[4]);
         }
 
+        TransactionType transactionType = TransactionType.valueOf(data[1]);
         Transaction transaction = new Transaction(transactionType, matchId, coinsAmount, betSide);
         player.getTransactions().add(transaction);
     }

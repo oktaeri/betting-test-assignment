@@ -19,34 +19,33 @@ import java.util.List;
 import java.util.UUID;
 
 public class BettingTest {
+    public static final String MATCH_DATA_FILE = "src/main/resources/match_data.txt";
+    public static final String PLAYER_DATA_FILE = "src/main/resources/player_data.txt";
+
+    public static final String TEST_RESULT_FILE = "src/test/resources/test_result.txt";
+
     @Test
     public void givenMatchDataFile_whenCheckingExistence_thenFileExists(){
-        String filepath = "src/main/resources/match_data.txt";
-
-        Assertions.assertTrue(new File(filepath).isFile());
+        Assertions.assertTrue(new File(MATCH_DATA_FILE).isFile());
     }
 
     @Test
     public void givenPlayerDataFile_whenCheckingExistence_thenFileExists(){
-        String filepath = "src/main/resources/player_data.txt";
-
-        Assertions.assertTrue(new File(filepath).isFile());
+        Assertions.assertTrue(new File(PLAYER_DATA_FILE).isFile());
     }
 
     @Test
     public void givenPlayerDataFile_whenParsingPlayers_thenPlayersParsedOnce(){
-        String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
-        List<Player> players = parser.parsePlayerData(filepath);
+        List<Player> players = parser.parsePlayerData(PLAYER_DATA_FILE);
 
         Assertions.assertEquals(2, players.size());
     }
 
     @Test
     public void givenPlayerDataFile_whenParsingPlayers_thenPlayersGetDefaultBalanceAfterParsing(){
-        String filepath = "src/main/resources/player_data.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
-        List<Player> players = parser.parsePlayerData(filepath);
+        List<Player> players = parser.parsePlayerData(PLAYER_DATA_FILE);
 
         for (Player player : players) {
             Assertions.assertEquals(0, player.getBalance());
@@ -57,6 +56,7 @@ public class BettingTest {
     public void givenPlayerDataFileWithOneDataLine_whenParsingPlayers_thenReturnsOnePlayer(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
 
         Assertions.assertEquals(1, players.size());
@@ -66,6 +66,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileEmptyBet_whenParsingPlayers_thenTransactionGetsAddedToPlayer(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
 
@@ -76,6 +77,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileEmptyBet_whenParsingPlayers_thenCorrectTransactionTypeAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_empty_bet.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
@@ -87,6 +89,7 @@ public class BettingTest {
     public void givenTestPlayerDataDepositFile_whenParsingPlayers_thenCorrectCoinsAmountAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
@@ -98,6 +101,7 @@ public class BettingTest {
     public void givenTestPlayerDataBetWithInvalidAmountAndSide_whenParsingPlayers_thenInvalidCoinsAmountDoesNotGetAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_negative_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
@@ -109,6 +113,7 @@ public class BettingTest {
     public void givenTestPlayerDataBetWithAmountAndSide_whenParsingPlayers_thenCorrectBetSideAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
@@ -120,6 +125,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileBetWithInvalidSide_whenParsingPlayers_thenInvalidBetSideDoesNotGetAddedToPlayerTransactions(){
         String filepath = "src/test/resources/test_player_data_bet_with_amount_and_invalid_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
         Transaction transaction = player.getTransactions().get(0);
@@ -129,9 +135,9 @@ public class BettingTest {
 
     @Test
     public void givenMatchDataFile_whenParsingMatches_thenAllMatchesGetParsedToMatchClass(){
-        String filepath = "src/main/resources/match_data.txt";
         MatchDataFileParser parser = new MatchDataFileParser();
-        List<Match> matches = parser.parseMatchData(filepath);
+
+        List<Match> matches = parser.parseMatchData(MATCH_DATA_FILE);
 
         Assertions.assertEquals(13, matches.size());
     }
@@ -140,6 +146,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileDeposit_whenProcessingTransactions_thenDepositedAmountGetsAddedToPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
@@ -153,6 +160,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileDepositAndWithdrawLegal_whenProcessingTransactions_thenLegalWithdrawalAmountGetsDeductedFromPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
@@ -166,6 +174,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileDepositAndWithdrawIllegal_whenProcessingTransactions_thenIllegalWithdrawalAmountDoesNotGetDeductedFromPlayerBalance(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
@@ -179,6 +188,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileDepositAndWithdrawIllegal_whenProcessingTransactions_thenIllegalWithdrawalGetsAddedToPlayerIllegalActions(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_illegal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
@@ -192,6 +202,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileDepositAndWithdrawLegal_whenProcessingTransactions_thenIllegalWithdrawalDoesNotGetAddedToPlayerIllegalActions(){
         String filepath = "src/test/resources/test_player_data_deposit_and_withdraw_legal.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
+
         List<Player> players = parser.parsePlayerData(filepath);
         TransactionService transactionProcessor = new TransactionService(players, null);
         transactionProcessor.processTransactions();
@@ -204,17 +215,13 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndGetsCoinsAddedToBalance(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals(1275, player.getBalance());
@@ -223,17 +230,13 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndWonMatchesCountIncreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals(1, player.getMatchesWon());
@@ -242,17 +245,13 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileDepositAndBetLosingSide_whenProcessingTransactions_thenPlayerLosesBetAndPlayerBalanceDecreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_losing_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals(50, player.getBalance());
@@ -261,14 +260,11 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileDepositAndBetWinningSide_whenProcessingTransactions_thenPlayerWinsBetAndCasinoBalanceIsNegative(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_winning_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
@@ -278,14 +274,11 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileDepositAndBetLosingSide_whenProcessingTransactions_thenPlayerLosesBetAndCasinoBalanceIncreases(){
         String playerFilepath = "src/test/resources/test_player_data_deposit_and_bet_losing_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
@@ -295,17 +288,13 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetIsAddedToPlayerIllegalAction() {
         String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertNotNull(player.getIllegalAction());
@@ -314,14 +303,11 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileBetWithAmountAndSide_whenProcessingTransactions_thenIllegalBetDoesNotAffectCasinoBalance(){
         String playerFilepath = "src/test/resources/test_player_data_bet_with_amount_and_side.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
@@ -330,15 +316,11 @@ public class BettingTest {
 
     @Test
     public void givenSamplePlayerDataFile_whenProcessingTransactions_thenCasinoBalanceIsCorrect(){
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         ResultData result = transactionProcessor.processTransactions();
 
@@ -347,18 +329,13 @@ public class BettingTest {
 
     @Test
     public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerBalanceIsCorrect(){
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals(2725, player.getBalance());
@@ -366,18 +343,13 @@ public class BettingTest {
 
     @Test
     public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerWinRatioIsCorrect(){
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals(BigDecimal.valueOf(0.14), player.getWinRatio());
@@ -385,18 +357,13 @@ public class BettingTest {
 
     @Test
     public void givenSamplePlayerDataFile_whenProcessingTransactions_thenPlayerToStringIsCorrect(){
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(0);
 
         Assertions.assertEquals("163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14", player.toString());
@@ -404,18 +371,13 @@ public class BettingTest {
 
     @Test
     public void givenSamplePlayerDataFile_whenProcessingTransactions_thenIllegalPlayerToStringIsCorrect(){
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
-
-        PlayerDataFileParser playerParser = new PlayerDataFileParser();
+       PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
 
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
-
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
         transactionProcessor.processTransactions();
-
         Player player = players.get(1);
 
         Assertions.assertEquals("4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null", player.illegalToString());
@@ -503,18 +465,16 @@ public class BettingTest {
 
                 -148""";
         String playerFilepath = "src/test/resources/test_player_data_all_legal.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
         ResultDataToFile resultDataToFile = new ResultDataToFile();
+
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
+        resultDataToFile.write(transactionProcessor.processTransactions(), TEST_RESULT_FILE);
 
-        String resultPath = "src/test/resources/test_result.txt";
-        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
-
-        String fileContent = Files.readString(Paths.get(resultPath));
+        String fileContent = Files.readString(Paths.get(TEST_RESULT_FILE));
 
         Assertions.assertEquals(expected, fileContent);
     }
@@ -529,18 +489,16 @@ public class BettingTest {
 
                 0""";
         String playerFilepath = "src/test/resources/test_player_data_all_illegal.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
         ResultDataToFile resultDataToFile = new ResultDataToFile();
+
         List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
+        resultDataToFile.write(transactionProcessor.processTransactions(), TEST_RESULT_FILE);
 
-        String resultPath = "src/test/resources/test_result.txt";
-        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
-
-        String fileContent = Files.readString(Paths.get(resultPath));
+        String fileContent = Files.readString(Paths.get(TEST_RESULT_FILE));
 
         Assertions.assertEquals(expected, fileContent);
     }
@@ -553,19 +511,16 @@ public class BettingTest {
                 4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null
 
                 75""";
-        String playerFilepath = "src/main/resources/player_data.txt";
-        String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
         ResultDataToFile resultDataToFile = new ResultDataToFile();
-        List<Player> players = playerParser.parsePlayerData(playerFilepath);
-        List<Match> matches = matchParser.parseMatchData(matchesFilepath);
+
+        List<Player> players = playerParser.parsePlayerData(PLAYER_DATA_FILE);
+        List<Match> matches = matchParser.parseMatchData(MATCH_DATA_FILE);
         TransactionService transactionProcessor = new TransactionService(players, matches);
+        resultDataToFile.write(transactionProcessor.processTransactions(), TEST_RESULT_FILE);
 
-        String resultPath = "src/test/resources/test_result.txt";
-        resultDataToFile.write(transactionProcessor.processTransactions(), resultPath);
-
-        String fileContent = Files.readString(Paths.get(resultPath));
+        String fileContent = Files.readString(Paths.get(TEST_RESULT_FILE));
 
         Assertions.assertEquals(expected, fileContent);
     }
