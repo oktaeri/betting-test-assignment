@@ -455,6 +455,13 @@ class BettingTest {
     }
 
     @Test
+    void invalidTransactionTypeThrowsRuntimeException() {
+        String invalidFile = "src/test/resources/test_player_data_invalid_transaction.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> new PlayerDataFileParser().parsePlayerData(invalidFile));
+    }
+
+    @Test
     void onlyLegalPlayersResultFileHasNoIllegalPlayers() throws IOException {
         String expected = """
                 163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14

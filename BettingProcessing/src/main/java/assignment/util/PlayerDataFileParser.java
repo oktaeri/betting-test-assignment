@@ -66,7 +66,13 @@ public class PlayerDataFileParser {
             betSide = MatchResult.valueOf(data[4]);
         }
 
-        TransactionType transactionType = TransactionType.valueOf(data[1]);
+        TransactionType transactionType;
+        try {
+            transactionType = TransactionType.valueOf(data[1]);
+        } catch (IllegalArgumentException e){
+            throw new RuntimeException(e);
+        }
+
         Transaction transaction = new Transaction(transactionType, matchId, coinsAmount, betSide);
         player.getTransactions().add(transaction);
     }
