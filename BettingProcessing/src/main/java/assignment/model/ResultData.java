@@ -10,5 +10,5 @@ import java.util.List;
 public class ResultData {
     private List<Player> legalPlayers;
     private List<Player> illegalPlayers;
-    private int casinoBalance;
+    private long casinoBalance;
 }

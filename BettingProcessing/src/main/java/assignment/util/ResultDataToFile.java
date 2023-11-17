@@ -23,6 +23,7 @@ public class ResultDataToFile {
 
         return legalPlayersData + "\n\n" + illegalPlayersData + "\n\n" + data.getCasinoBalance();
     }
+
     public void write(ResultData data, String filepath){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
             writer.write(getResultString(data));

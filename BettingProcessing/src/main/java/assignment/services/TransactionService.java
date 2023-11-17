@@ -27,8 +27,8 @@ public class TransactionService {
         return new ResultData(legalPlayers, getIllegalPlayers(), getCasinoBalance(legalPlayers));
     }
 
-    private int getCasinoBalance(List<Player> legalPlayers){
-        int casinoBalance = 0;
+    private long getCasinoBalance(List<Player> legalPlayers){
+        long casinoBalance = 0;
 
         for (Player player : legalPlayers) {
             casinoBalance = casinoBalance + player.getLoss();
