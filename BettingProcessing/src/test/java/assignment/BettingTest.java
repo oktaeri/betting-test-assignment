@@ -470,4 +470,24 @@ public class BettingTest {
         });
     }
 
+    @Test
+    public void givenTestPlayerDataFileNegativeWithdraw_whenParsingPlayerData_thenDepositAmountGetsChangedToZero(){
+        String filepath = "src/test/resources/test_player_data_withdraw_negative.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+
+        Transaction transaction = players.get(0).getTransactions().get(0);
+
+        Assertions.assertEquals(0, transaction.getCoinsAmount());
+    }
+
+    @Test
+    public void givenTestPlayerDataFileInvalidWithdraw_whenParsingPlayerData_thenThrowsRuntimeException(){
+        String invalidFile = "src/test/resources/test_player_data_withdraw_invalid.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new PlayerDataFileParser().parsePlayerData(invalidFile);
+        });
+    }
+
 }
