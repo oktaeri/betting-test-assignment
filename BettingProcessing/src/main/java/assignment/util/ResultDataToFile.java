@@ -8,29 +8,35 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ResultDataToFile {
+    private String getResultString(ResultData data){
+        StringBuilder resultString = new StringBuilder();
+
+        if (data.getLegalPlayers().isEmpty()) {
+            resultString.append("\n");
+        } else {
+            for (Player legalPlayer : data.getLegalPlayers()) {
+                resultString.append(legalPlayer.toString() + "\n");
+            }
+        }
+
+        resultString.append("\n");
+
+        if (data.getIllegalPlayers().isEmpty()) {
+            resultString.append("\n");
+        } else {
+            for (Player illegalPlayer : data.getIllegalPlayers()){
+                resultString.append(illegalPlayer.illegalToString() + "\n");
+            }
+        }
+
+        resultString.append("\n");
+        resultString.append(data.getCasinoBalance());
+
+        return resultString.toString();
+    }
     public void write(ResultData data, String filepath){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))){
-            if (data.getLegalPlayers().isEmpty()){
-                writer.write("\n");
-            } else {
-                for (Player legalPlayer: data.getLegalPlayers()) {
-                    writer.write(legalPlayer.toString() + "\n");
-                }
-            }
-
-            writer.write("\n");
-
-            if (data.getIllegalPlayers().isEmpty()){
-                writer.write("\n");
-            } else {
-                for (Player illegalPlayer: data.getIllegalPlayers()) {
-                    writer.write(illegalPlayer.illegalToString() + "\n");
-                }
-            }
-
-            writer.write("\n");
-
-            writer.write(String.valueOf(data.getCasinoBalance()));
+            writer.write(getResultString(data));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

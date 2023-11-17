@@ -92,7 +92,7 @@ public class BettingTest {
 
     @Test
     public void givenTestPlayerDataBetWithInvalidAmountAndSide_whenParsingPlayers_thenInvalidCoinsAmountDoesNotGetAddedToPlayerTransactions(){
-        String filepath = "src/test/resources/test_player_data_bet_with_invalid_amount_and_side.txt";
+        String filepath = "src/test/resources/test_player_data_bet_with_negative_amount_and_side.txt";
         PlayerDataFileParser parser = new PlayerDataFileParser();
         List<Player> players = parser.parsePlayerData(filepath);
         Player player = players.get(0);
@@ -484,6 +484,15 @@ public class BettingTest {
     @Test
     public void givenTestPlayerDataFileInvalidWithdraw_whenParsingPlayerData_thenThrowsRuntimeException(){
         String invalidFile = "src/test/resources/test_player_data_withdraw_invalid.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new PlayerDataFileParser().parsePlayerData(invalidFile);
+        });
+    }
+
+    @Test
+    public void givenTestPlayerDataFileInvalidBetAmount_whenParsingPlayerData_thenThrowsRuntimeException(){
+        String invalidFile = "src/test/resources/test_player_data_bet_with_invalid_amount_and_side.txt";
 
         Assertions.assertThrows(RuntimeException.class, () -> {
             new PlayerDataFileParser().parsePlayerData(invalidFile);
