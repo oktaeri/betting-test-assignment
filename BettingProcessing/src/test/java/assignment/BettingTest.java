@@ -440,18 +440,14 @@ public class BettingTest {
     public void givenNonExistentFile_whenParsingPlayerData_thenThrowsRuntimeException(){
         String fakeFile = "this_does_not_exist.txt";
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            new PlayerDataFileParser().parsePlayerData(fakeFile);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> new PlayerDataFileParser().parsePlayerData(fakeFile));
     }
 
     @Test
     public void givenNonExistentFile_whenParsingMatchData_thenThrowsRuntimeException(){
         String fakeFile = "this_does_not_exist.txt";
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            new MatchDataFileParser().parseMatchData(fakeFile);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> new MatchDataFileParser().parseMatchData(fakeFile));
     }
 
     @Test
@@ -469,9 +465,7 @@ public class BettingTest {
     public void givenTestPlayerDataFileInvalidDeposit_whenParsingPlayerData_thenThrowsRuntimeException(){
         String invalidFile = "src/test/resources/test_player_data_deposit_invalid.txt";
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            new PlayerDataFileParser().parsePlayerData(invalidFile);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> new PlayerDataFileParser().parsePlayerData(invalidFile));
     }
 
     @Test
@@ -489,28 +483,25 @@ public class BettingTest {
     public void givenTestPlayerDataFileInvalidWithdraw_whenParsingPlayerData_thenThrowsRuntimeException(){
         String invalidFile = "src/test/resources/test_player_data_withdraw_invalid.txt";
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            new PlayerDataFileParser().parsePlayerData(invalidFile);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> new PlayerDataFileParser().parsePlayerData(invalidFile));
     }
 
     @Test
     public void givenTestPlayerDataFileInvalidBetAmount_whenParsingPlayerData_thenThrowsRuntimeException(){
         String invalidFile = "src/test/resources/test_player_data_bet_with_invalid_amount_and_side.txt";
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            new PlayerDataFileParser().parsePlayerData(invalidFile);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> new PlayerDataFileParser().parsePlayerData(invalidFile));
     }
 
     @Test
     public void givenOnlyLegalPlayers_whenProcessingTransactions_thenResultFileHasNoIllegalPlayers() throws IOException {
-        String expected = "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14\n" +
-                "4925ac98-833b-454b-9342-13ed3dfd3ccf 723 0,50\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "-148";
+        String expected = """
+                163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14
+                4925ac98-833b-454b-9342-13ed3dfd3ccf 723 0,50
+
+
+
+                -148""";
         String playerFilepath = "src/test/resources/test_player_data_all_legal.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
@@ -529,13 +520,14 @@ public class BettingTest {
     }
 
     @Test
-    public void givenOnlyIlegalPlayers_whenProcessingTransactions_thenResultFileHasNoLegalPlayers() throws IOException {
-        String expected = "\n" +
-                "\n" +
-                "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 BET a3815c17-9def-4034-a21f-65369f6d4a56 200000 A\n" +
-                "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null\n" +
-                "\n" +
-                "0";
+    public void givenOnlyIllegalPlayers_whenProcessingTransactions_thenResultFileHasNoLegalPlayers() throws IOException {
+        String expected = """
+
+
+                163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 BET a3815c17-9def-4034-a21f-65369f6d4a56 200000 A
+                4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null
+
+                0""";
         String playerFilepath = "src/test/resources/test_player_data_all_illegal.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
@@ -555,11 +547,12 @@ public class BettingTest {
 
     @Test
     public void givenSampleData_whenProcessingTransactions_thenResultFileHasCorrectContent() throws IOException {
-        String expected = "163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14\n" +
-                "\n" +
-                "4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null\n" +
-                "\n" +
-                "75";
+        String expected = """
+                163f23ed-e9a9-4e54-a5b1-4e1fc86f12f4 2725 0,14
+
+                4925ac98-833b-454b-9342-13ed3dfd3ccf WITHDRAW null 8093 null
+
+                75""";
         String playerFilepath = "src/main/resources/player_data.txt";
         String matchesFilepath = "src/main/resources/match_data.txt";
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
