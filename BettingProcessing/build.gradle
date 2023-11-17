@@ -9,7 +9,7 @@ repositories {
     mavenCentral()
 }
 
-def lombokVersion = '1.18.26'
+def lombokVersion = '1.18.30'
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')

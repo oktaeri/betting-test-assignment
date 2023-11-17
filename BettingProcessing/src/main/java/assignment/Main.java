@@ -12,13 +12,12 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO: figure out how to get code coverage to 100%
+        String playerDataFilePath = "src/main/resources/player_data.txt";
+        String matchDataFilePath = "src/main/resources/match_data.txt";
+
         PlayerDataFileParser playerParser = new PlayerDataFileParser();
         MatchDataFileParser matchParser = new MatchDataFileParser();
         ResultDataToFile resultDataToFile = new ResultDataToFile();
-
-        String playerDataFilePath = "src/main/resources/player_data.txt";
-        String matchDataFilePath = "src/main/resources/match_data.txt";
 
         List<Player> players = playerParser.parsePlayerData(playerDataFilePath);
         List<Match> matches = matchParser.parseMatchData(matchDataFilePath);
