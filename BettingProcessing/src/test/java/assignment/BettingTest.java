@@ -449,4 +449,25 @@ public class BettingTest {
             new MatchDataFileParser().parseMatchData(fakeFile);
         });
     }
+
+    @Test
+    public void givenTestPlayerDataFileNegativeDeposit_whenParsingPlayerData_thenDepositAmountGetsChangedToZero(){
+        String filepath = "src/test/resources/test_player_data_deposit_negative.txt";
+        PlayerDataFileParser parser = new PlayerDataFileParser();
+        List<Player> players = parser.parsePlayerData(filepath);
+
+        Transaction transaction = players.get(0).getTransactions().get(0);
+
+        Assertions.assertEquals(0, transaction.getCoinsAmount());
+    }
+
+    @Test
+    public void givenTestPlayerDataFileInvalidDeposit_whenParsingPlayerData_thenThrowsRuntimeException(){
+        String invalidFile = "src/test/resources/test_player_data_deposit_invalid.txt";
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new PlayerDataFileParser().parsePlayerData(invalidFile);
+        });
+    }
+
 }
