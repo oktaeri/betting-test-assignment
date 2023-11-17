@@ -5,7 +5,7 @@ import assignment.model.Transaction;
 
 public class WithdrawalService {
     public void processWithdrawal(Player player, Transaction transaction){
-        int playerBalance = player.getBalance();
+        long playerBalance = player.getBalance();
         int transactionCoinsAmount = transaction.getCoinsAmount();
 
         if (playerBalance > transactionCoinsAmount){

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Player {
     @NonNull
     private UUID id;
-    private int balance = 0;
+    private long balance = 0L;
     private List<Transaction> transactions = new ArrayList<>();
     private int matchesWon = 0;
     private int profit = 0;
